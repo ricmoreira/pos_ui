@@ -7,7 +7,7 @@ For authentication this shop connects to the following service:
 
 For other services this online shop connects to the following API gateway:
 
-* [api_gateway_shop](https://github.com/ricmoreira/api_gateway_shop)
+* [api_gateway_pos](https://github.com/ricmoreira/api_gateway_pos)
 
 The gateway will expose the following services:
 

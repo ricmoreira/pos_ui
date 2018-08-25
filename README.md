@@ -1,5 +1,5 @@
-## Shop UI
-Shop UI is a demo Online Shop UI based on [Core UI](https://coreui.io) free template.
+## POS UI
+POS UI is a demo POS UI based on [Core UI](https://coreui.io) free template.
 
 For authentication this shop connects to the following service:
 

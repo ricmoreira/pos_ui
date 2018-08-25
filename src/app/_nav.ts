@@ -36,36 +36,4 @@ export const navItems = [
     url: '/products/stock',
     icon: 'fa fa-archive',
   },
-  {
-    title: true,
-    name: 'Invoices'
-  },
-  {
-    name: 'List',
-    url: '/invoices/list',
-    icon: 'icon-list',
-  },
-  {
-    title: true,
-    name: 'Stock Movements'
-  },
-  {
-    name: 'List',
-    url: '/stock/movement/list',
-    icon: 'icon-list',
-  },
-  {
-    name: 'Create',
-    url: '/stock/movement/create',
-    icon: 'fa fa-exchange',
-  },
-  {
-    title: true,
-    name: 'SAF-T'
-  },
-  {
-    name: 'Upload',
-    url: '/saft/upload',
-    icon: 'icon-cloud-upload'
-  }
 ];

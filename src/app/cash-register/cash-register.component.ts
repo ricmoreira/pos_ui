@@ -62,12 +62,6 @@ export class CashRegisterComponent implements AfterViewInit {
     this.cart = new Array<CartItem>();
   }
 
-  getProductByCode(productCode: string): Product {
-    return this.products.find((product) => {
-      return product.ProductCode == productCode;
-    });
-  }
-
   addProductToCart(productIndex: number) {
     let product = this.products[productIndex];
 
@@ -101,7 +95,7 @@ export class CashRegisterComponent implements AfterViewInit {
       stockMov.WharehouseID = "1"
       stockMov.DocumentID = this.documentID;
       stockMov.Line = i + 1;
-      stockMov.MovementType = "SALE";
+      stockMov.MovementType = "SALE POS";
       stockMov.ProductCode = cartItem.product.ProductCode;
       stockMov.Quantity = cartItem.quantity;
 

@@ -9,11 +9,7 @@ import { P500Component } from './500/500.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProductsComponent } from './products/products.component';
-import { SAFTComponent } from './saft/saft.component';
-import { InvoicesComponent } from './invoices/invoices.component';
 import { CompanyInfoComponent } from './company-info/company-info.component';
-import { StockMovsListComponent } from './stock-movs/stock-movs-list.component';
-import { StockMovsCreateComponent } from './stock-movs/stock-movs-create.component';
 import { StockCountListComponent } from './stock-count/stock-count-list.component';
 import { CashRegisterComponent } from './cash-register/cash-register.component';
 
@@ -88,38 +84,6 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           title: 'Products Stock'
-        }
-      },
-      {
-        path: 'stock/movement/list',
-        component: StockMovsListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'List'
-        }
-      },
-      {
-        path: 'stock/movement/create',
-        component: StockMovsCreateComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Create'
-        }
-      },
-      {
-        path: 'invoices/list',
-        component: InvoicesComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'Invoices'
-        }
-      },
-      {
-        path: 'saft/upload',
-        component: SAFTComponent,
-        canActivate: [AuthGuard],
-        data: {
-          title: 'SAFT'
         }
       },
     ]

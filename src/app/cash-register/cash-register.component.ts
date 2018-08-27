@@ -1,5 +1,4 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ProductsService } from '../../services/products.service';
 import { StockMovsService } from '../../services/stock-movs.service';
 import { List as ListReq, Filter } from '../../models/request/list';
@@ -11,10 +10,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { fromEvent, Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { StockMovCreate as StockMovReq } from '../../models/request/stock-movs';
-import { StockMov as StockMovRes } from '../../models/response/stock-movs';
 import 'rxjs/add/observable/forkJoin';
 import { UUID } from 'angular2-uuid';
+import { InvoicesService } from '../../services/invoices.service';
+import { InvoiceCreate, Line } from '../../models/request/invoices';
 
 @Component({
   templateUrl: './cash-register.component.html'
@@ -47,7 +46,7 @@ export class CashRegisterComponent implements AfterViewInit {
   constructor(private notificationService: NotificationService,
     private productService: ProductsService,
     private stockMovService: StockMovsService,
-    private router: Router
+    private invoicesService: InvoicesService,
   ) { }
 
   ngOnInit() {
@@ -84,28 +83,26 @@ export class CashRegisterComponent implements AfterViewInit {
   }
 
   confirmPurchase() {
-    const requests = new Array<StockMovReq>();
+    const invoice = new InvoiceCreate();
+    invoice.InvoiceNo = this.documentID;
+    let now = new Date();
+    invoice.SystemEntryDate = now.toISOString()
+    invoice.InvoiceDate = invoice.SystemEntryDate.split('T')[0];
+    invoice.Line = new Array<Line>();
 
     this.cart.forEach((cartItem, i) => {
-      let stockMov = new StockMovReq();
-
-      stockMov.Time = new Date();
-      stockMov.Dir = "OUT";
-      stockMov.UnitOfMeasure = "UNI" // TODO: put this dynamic
-      stockMov.WharehouseID = "1"
-      stockMov.DocumentID = this.documentID;
-      stockMov.Line = i + 1;
-      stockMov.MovementType = "SALE POS";
-      stockMov.ProductCode = cartItem.product.ProductCode;
-      stockMov.Quantity = cartItem.quantity;
-
-      requests.push(stockMov);
+      let line = new Line();
+      line.ProductCode = cartItem.product.ProductCode;
+      line.Quantity = cartItem.quantity;
+      line.UnitOfMeasure = "UNI" // TODO: put this dynamic
+    
+      invoice.Line.push(line);
     });
 
-    this.stockMovService.createMany(requests).subscribe(
+    this.invoicesService.createInvoice(invoice).subscribe(
       (success) => {
 
-        this.notificationService.success(`Purchase completed with success! Document ID: ${this.documentID}`);
+        this.notificationService.success(`Purchase completed with success! Invoice ID: ${invoice.InvoiceNo}`);
 
         // clear for new purchase
         this.documentID = UUID.UUID();
@@ -113,7 +110,7 @@ export class CashRegisterComponent implements AfterViewInit {
       },
       (err) => {
         console.log(err);
-        this.notificationService.error(`Error ocurred on completing purchase! Document ID: ${this.documentID}`);
+        this.notificationService.error(`Error ocurred on completing purchase! Invoice ID: ${invoice.InvoiceNo}`);
 
         // clear for new purchase
         this.documentID = UUID.UUID();
